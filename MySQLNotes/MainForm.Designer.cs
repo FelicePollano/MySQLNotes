@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -71,16 +72,20 @@
             // treeViewNotebooks
             // 
             this.treeViewNotebooks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewNotebooks.ImageIndex = 0;
+            this.treeViewNotebooks.ImageList = this.imageListTree;
             this.treeViewNotebooks.Location = new System.Drawing.Point(0, 0);
             this.treeViewNotebooks.Name = "treeViewNotebooks";
+            this.treeViewNotebooks.SelectedImageIndex = 0;
             this.treeViewNotebooks.Size = new System.Drawing.Size(349, 625);
             this.treeViewNotebooks.TabIndex = 0;
             // 
             // imageListTree
             // 
-            this.imageListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageListTree.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
             this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTree.Images.SetKeyName(0, "folder.png");
+            this.imageListTree.Images.SetKeyName(1, "tag.png");
             // 
             // MainForm
             // 
