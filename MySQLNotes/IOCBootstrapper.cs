@@ -47,10 +47,13 @@ namespace MySQLNotes
         public  void BindViewsAndPresenters(Control form)
         {
             var viewTypeName = $"I{form.Name}View";
-            var t = Assembly.GetExecutingAssembly().GetTypes().Where(tt =>string.Compare(tt.Name,viewTypeName, true)==0).FirstOrDefault();
-            if (null != t)
+            var presenterTypeName = $"I{form.Name}Presenter";
+            var tview = Assembly.GetExecutingAssembly().GetTypes().Where(tt =>string.Compare(tt.Name,viewTypeName, true)==0).FirstOrDefault();
+            var tpres = Assembly.GetExecutingAssembly().GetTypes().Where(tt => string.Compare(tt.Name, presenterTypeName, true) == 0).FirstOrDefault();
+            if (null != tview)
             {
-                var view = kernel.Get(t, new ConstructorArgument("control",form));
+               var view = kernel.Get(tview, new ConstructorArgument("control",form));
+               kernel.Get(tpres, new ConstructorArgument("view", view));
             }
             foreach (Control child in form.Controls)
             {
