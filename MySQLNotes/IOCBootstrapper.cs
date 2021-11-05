@@ -16,6 +16,7 @@ namespace MySQLNotes
         public IOCBootstrapper()
         {
             kernel = new StandardKernel();
+            kernel.Bind<MySQLNotes.Entities>().ToSelf();
             BindAllInViews();
             BindAllInPresenters();
         }

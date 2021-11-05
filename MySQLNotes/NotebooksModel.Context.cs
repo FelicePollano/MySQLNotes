@@ -13,10 +13,10 @@ namespace MySQLNotes
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MySqlNotesEntities : DbContext
+    public partial class Entities : DbContext
     {
-        public MySqlNotesEntities()
-            : base("name=MySqlNotesEntities")
+        public Entities()
+            : base("name=Entities")
         {
         }
     

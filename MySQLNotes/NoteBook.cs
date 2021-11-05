@@ -17,19 +17,18 @@ namespace MySQLNotes
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NoteBook()
         {
-            this.NoteBook1 = new HashSet<NoteBook>();
+            this.Children = new HashSet<NoteBook>();
             this.Page = new HashSet<Page>();
         }
     
         public int BookId { get; set; }
         public string BookTitle { get; set; }
         public string BookDescription { get; set; }
-        public Nullable<int> ParentId { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NoteBook> NoteBook1 { get; set; }
-        public virtual NoteBook NoteBook2 { get; set; }
+        public virtual ICollection<NoteBook> Children { get; set; }
+        public virtual NoteBook Parent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Page> Page { get; set; }
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MySQLNotes.Infrastructure
 {
+    
     public interface IToolFactory
     {
         T GetInstance<T>();

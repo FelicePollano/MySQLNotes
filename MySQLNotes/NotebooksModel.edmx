@@ -92,10 +92,9 @@
           <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BookDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ParentId" Type="Int32" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="NoteBook1" Relationship="Self.FK_NoteBook_NoteBook" FromRole="NoteBook" ToRole="NoteBook1" />
-          <NavigationProperty Name="NoteBook2" Relationship="Self.FK_NoteBook_NoteBook" FromRole="NoteBook1" ToRole="NoteBook" />
+          <NavigationProperty Name="Children" Relationship="Self.FK_NoteBook_NoteBook" FromRole="NoteBook" ToRole="NoteBook1" />
+          <NavigationProperty Name="Parent" Relationship="Self.FK_NoteBook_NoteBook" FromRole="NoteBook1" ToRole="NoteBook" />
           <NavigationProperty Name="Page" Relationship="Self.FK_Page_NoteBook" FromRole="NoteBook" ToRole="Page" />
         </EntityType>
         <EntityType Name="Page">
@@ -106,34 +105,17 @@
           <Property Name="PageContent" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="PageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
-          <Property Name="BookId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="NoteBook" Relationship="Self.FK_Page_NoteBook" FromRole="Page" ToRole="NoteBook" />
         </EntityType>
         <Association Name="FK_NoteBook_NoteBook">
           <End Role="NoteBook" Type="Self.NoteBook" Multiplicity="0..1" />
           <End Role="NoteBook1" Type="Self.NoteBook" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NoteBook">
-              <PropertyRef Name="BookId" />
-            </Principal>
-            <Dependent Role="NoteBook1">
-              <PropertyRef Name="ParentId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Page_NoteBook">
           <End Role="NoteBook" Type="Self.NoteBook" Multiplicity="1" />
           <End Role="Page" Type="Self.Page" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NoteBook">
-              <PropertyRef Name="BookId" />
-            </Principal>
-            <Dependent Role="Page">
-              <PropertyRef Name="BookId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MySqlNotesEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Connection" EntityType="Self.Connection" />
           <EntitySet Name="NoteBook" EntityType="Self.NoteBook" />
           <EntitySet Name="Page" EntityType="Self.Page" />
@@ -151,7 +133,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MySqlNotesModelStoreContainer" CdmEntityContainer="MySqlNotesEntities">
+        <EntityContainerMapping StorageEntityContainer="MySqlNotesModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="Connection">
             <EntityTypeMapping TypeName="MySqlNotesModel.Connection">
               <MappingFragment StoreEntitySet="Connection">
@@ -168,7 +150,6 @@
                 <ScalarProperty Name="BookId" ColumnName="BookId" />
                 <ScalarProperty Name="BookTitle" ColumnName="BookTitle" />
                 <ScalarProperty Name="BookDescription" ColumnName="BookDescription" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -180,10 +161,26 @@
                 <ScalarProperty Name="PageContent" ColumnName="PageContent" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-                <ScalarProperty Name="BookId" ColumnName="BookId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="FK_NoteBook_NoteBook" TypeName="MySqlNotesModel.FK_NoteBook_NoteBook" StoreEntitySet="NoteBook">
+            <EndProperty Name="NoteBook">
+              <ScalarProperty Name="BookId" ColumnName="ParentId" />
+            </EndProperty>
+            <EndProperty Name="NoteBook1">
+              <ScalarProperty Name="BookId" ColumnName="BookId" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="ParentId" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Page_NoteBook" TypeName="MySqlNotesModel.FK_Page_NoteBook" StoreEntitySet="Page">
+            <EndProperty Name="NoteBook">
+              <ScalarProperty Name="BookId" ColumnName="BookId" />
+            </EndProperty>
+            <EndProperty Name="Page">
+              <ScalarProperty Name="PageId" ColumnName="PageId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -199,7 +196,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

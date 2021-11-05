@@ -11,7 +11,10 @@ namespace MySQLNotes.Presenters
     {
         public TreeViewNotebookPresenter(ITreeViewNotebooksView view)
         {
-
+            view.OnExpand += (u) =>
+            {
+                return null;
+            };
         }
     }
 }

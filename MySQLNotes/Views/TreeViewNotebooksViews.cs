@@ -1,4 +1,5 @@
-﻿using MySQLNotes.Presenters;
+﻿using MySQLNotes.Model;
+using MySQLNotes.Presenters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,11 @@ namespace MySQLNotes.Views
                 if (e.Node.Nodes.Count==1 && e.Node.Nodes[0].Text == DUMMY)
                 {
                     e.Node.Nodes[0].Remove();
+                    var children = this?. OnExpand(e.Node.Tag as NotebookNodeModel);
                 }
             };
         }
+
+        public event ExpandDelegate OnExpand;
     }
 }

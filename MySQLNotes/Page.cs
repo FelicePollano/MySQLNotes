@@ -18,7 +18,6 @@ namespace MySQLNotes
         public byte[] PageContent { get; set; }
         public string PageName { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
-        public int BookId { get; set; }
     
         public virtual NoteBook NoteBook { get; set; }
     }
